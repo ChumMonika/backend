@@ -37,8 +37,9 @@ class Config:
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', os.getenv('MAIL_USERNAME'))
     
-    # CORS
-    CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:3000').split(',')
+    # CORS - Allow multiple origins, strip whitespace
+    cors_origins_raw = os.getenv('CORS_ORIGINS', 'http://localhost:3000')
+    CORS_ORIGINS = [origin.strip() for origin in cors_origins_raw.split(',')]
     
     # Tesseract OCR Configuration
     TESSERACT_CMD = os.getenv('TESSERACT_CMD', r'C:\Program Files\Tesseract-OCR\tesseract.exe')

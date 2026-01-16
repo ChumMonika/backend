@@ -1,4 +1,7 @@
-bind = "0.0.0.0:5000"
+import os
+
+# DigitalOcean App Platform uses port 8080 by default
+bind = f"0.0.0.0:{os.getenv('PORT', '8080')}"
 workers = 4
 worker_class = "sync"
 worker_connections = 1000

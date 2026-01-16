@@ -1,0 +1,49 @@
+name: webcv-backend
+region: nyc
+services:
+  - name: web
+    environment_slug: python
+    github:
+      repo: ChumMonika/backend
+      branch: main
+      deploy_on_push: true
+    build_command: pip install -r requirements.txt
+    run_command: gunicorn --config gunicorn_config.py wsgi:app
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    envs:
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: "8080"
+      - key: SECRET_KEY
+        value: CHANGE_ME_TO_RANDOM_STRING
+        type: SECRET
+      - key: JWT_SECRET_KEY
+        value: CHANGE_ME_TO_RANDOM_STRING
+        type: SECRET
+      - key: DATABASE_URL
+        value: ${db.DATABASE_URL}
+      - key: CORS_ORIGINS
+        value: http://localhost:3000
+      - key: UPLOAD_FOLDER
+        value: uploads
+      - key: MAX_CONTENT_LENGTH
+        value: "16777216"
+      - key: ITEMS_PER_PAGE
+        value: "20"
+
+databases:
+  - name: db
+    engine: PG
+    version: "14"
+    production: false
+    cluster_name: webcv-db

@@ -24,7 +24,7 @@ RUN mkdir -p uploads/cvs uploads/profiles
 EXPOSE 5000
 
 # Set environment variables
-ENV FLASK_APP=run.py
+ENV FLASK_APP=
 ENV PYTHONUNBUFFERED=1
 
 # Run gunicorn
